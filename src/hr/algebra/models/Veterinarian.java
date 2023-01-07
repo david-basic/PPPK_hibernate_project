@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -39,6 +41,7 @@ public class Veterinarian implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "IDVeterinarian")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer iDVeterinarian;
     @Basic(optional = false)
     @Column(name = "FirstName")
