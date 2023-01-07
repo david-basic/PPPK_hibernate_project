@@ -72,6 +72,10 @@ public class Veterinarian implements Serializable {
         this.email = email;
     }
 
+    public Veterinarian(Veterinarian data) {
+        updateData(data);
+    }
+
     public Integer getIDVeterinarian() {
         return iDVeterinarian;
     }
@@ -145,5 +149,12 @@ public class Veterinarian implements Serializable {
     public String toString() {
         return "hr.algebra.models.Veterinarian[ iDVeterinarian=" + iDVeterinarian + " ]";
     }
-    
+
+    public void updateData(Veterinarian data) {
+        firstName = data.firstName;
+        lastName = data.lastName;
+        email = data.email;
+        picture = data.picture;
+    }
+
 }

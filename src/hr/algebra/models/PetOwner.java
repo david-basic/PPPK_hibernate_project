@@ -71,6 +71,10 @@ public class PetOwner implements Serializable {
         this.lastName = lastName;
         this.email = email;
     }
+    
+    public PetOwner(PetOwner data) {
+        updateData(data);
+    }
 
     public Integer getIDPetOwner() {
         return iDPetOwner;
@@ -145,5 +149,11 @@ public class PetOwner implements Serializable {
     public String toString() {
         return "hr.algebra.models.PetOwner[ iDPetOwner=" + iDPetOwner + " ]";
     }
-    
+
+    public void updateData(PetOwner data) {
+        firstName = data.firstName;
+        lastName = data.lastName;
+        email = data.email;
+        picture = data.picture;
+    }
 }
