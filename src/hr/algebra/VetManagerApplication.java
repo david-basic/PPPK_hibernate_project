@@ -5,7 +5,6 @@
  */
 package hr.algebra;
 
-import hr.algebra.dao.sql.HibernateFactory;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

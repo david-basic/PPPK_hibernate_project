@@ -28,9 +28,6 @@ public class EntityManagerWrapper implements AutoCloseable{
         if (entityManager != null) {
             entityManager.close();
         }
-        
-        
-        
     }
     
 }

@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/VetManagerApplication.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/models/Pet.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/dao/sql/EntityManagerWrapper.java</file>
             <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/controllers/VeterinarianController.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/models/PetOwner.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/models/Veterinarian.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/dao/sql/HibernateFactory.java</file>
         </group>
     </open-files>
 </project-private>

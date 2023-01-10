@@ -14,19 +14,19 @@ import javax.persistence.Persistence;
  */
 public class HibernateFactory {
 
-    public static final String SELECT_PET = "Pet.findAll";
+    public static final String SELECT_PETS = "Pet.findAll";
     public static final String FIND_PET_BY_ID = "Pet.findByIDPet";
     public static final String FIND_PET_BY_NAME = "Pet.findByPetName";
     public static final String FIND_PET_BY_SPECIES = "Pet.findBySpecies";
     public static final String FIND_PET_BY_AGE = "Pet.findByAge";
     
-    public static final String SELECT_PET_OWNER = "PetOwner.findAll";
+    public static final String SELECT_PET_OWNERS = "PetOwner.findAll";
     public static final String FIND_PET_OWNER_BY_ID = "PetOwner.findByIDPetOwner";
     public static final String FIND_PET_OWNER_BY_FIRST_NAME = "PetOwner.findByFirstName";
     public static final String FIND_PET_OWNER_BY_LAST_NAME = "PetOwner.findByLastName";
     public static final String FIND_PET_OWNER_BY_EMAIL = "PetOwner.findByEmail";
     
-    public static final String SELECT_VETERINARIAN = "Veterinarian.findAll";
+    public static final String SELECT_VETERINARIANS = "Veterinarian.findAll";
     public static final String FIND_VETERINARIAN_BY_ID = "Veterinarian.findByIDVeterinarian";
     public static final String FIND_VETERINARIAN_BY_FIRST_NAME = "Veterinarian.findByFirstName";
     public static final String FIND_VETERINARIAN_BY_LAST_NAME = "Veterinarian.findByLastName";
@@ -46,7 +46,4 @@ public class HibernateFactory {
     public static void release(){
         EMF.close();
     }
-    
-    
-    
 }
