@@ -5,6 +5,7 @@
  */
 package hr.algebra;
 
+import hr.algebra.dao.RepositoryFactory;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,11 +35,7 @@ public class VetManagerApplication extends Application {
     @Override
     public void stop() throws Exception {
         super.stop(); //To change body of generated methods, choose Tools | Templates.
-        //HibernateFactory.release();
-        
-        
-        
-        
+        RepositoryFactory.getRepository().release();
     }
     
     

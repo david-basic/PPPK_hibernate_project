@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PetOwner")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = HibernateFactory.SELECT_PET_OWNER, query = "SELECT p FROM PetOwner p")
+    @NamedQuery(name = HibernateFactory.SELECT_PET_OWNERS, query = "SELECT p FROM PetOwner p")
     , @NamedQuery(name = HibernateFactory.FIND_PET_OWNER_BY_ID, query = "SELECT p FROM PetOwner p WHERE p.iDPetOwner = :iDPetOwner")
     , @NamedQuery(name = HibernateFactory.FIND_PET_OWNER_BY_LAST_NAME, query = "SELECT p FROM PetOwner p WHERE p.firstName = :firstName")
     , @NamedQuery(name = HibernateFactory.FIND_PET_OWNER_BY_LAST_NAME, query = "SELECT p FROM PetOwner p WHERE p.lastName = :lastName")

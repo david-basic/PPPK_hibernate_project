@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Pet")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = HibernateFactory.SELECT_PET, query = "SELECT p FROM Pet p")
+    @NamedQuery(name = HibernateFactory.SELECT_PETS, query = "SELECT p FROM Pet p")
     , @NamedQuery(name = HibernateFactory.FIND_PET_BY_ID, query = "SELECT p FROM Pet p WHERE p.iDPet = :iDPet")
     , @NamedQuery(name = HibernateFactory.FIND_PET_BY_NAME, query = "SELECT p FROM Pet p WHERE p.petName = :petName")
     , @NamedQuery(name = HibernateFactory.FIND_PET_BY_SPECIES, query = "SELECT p FROM Pet p WHERE p.species = :species")
