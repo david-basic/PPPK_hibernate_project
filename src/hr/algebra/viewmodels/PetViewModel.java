@@ -24,6 +24,9 @@ public class PetViewModel {
     private final Pet pet;
 
     public PetViewModel(Pet pet) {
+        if (pet == null) {
+            pet = new Pet(0, "", "", 0);
+        }
         this.pet = pet;
     }
 

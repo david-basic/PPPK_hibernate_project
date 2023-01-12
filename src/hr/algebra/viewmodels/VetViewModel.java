@@ -22,6 +22,9 @@ public class VetViewModel {
     private final Veterinarian veterinarian;
 
     public VetViewModel(Veterinarian veterinarian) {
+        if (veterinarian == null) {
+            veterinarian = new Veterinarian(0, "", "", "");
+        }
         this.veterinarian = veterinarian;
     }
 

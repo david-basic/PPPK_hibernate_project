@@ -22,6 +22,9 @@ public class OwnerViewModel {
     private final PetOwner petOwner;
 
     public OwnerViewModel(PetOwner petOwner) {
+        if (petOwner == null) {
+            petOwner = new PetOwner(0, "", "", "");
+        }
         this.petOwner = petOwner;
     }
 
@@ -32,21 +35,20 @@ public class OwnerViewModel {
     public IntegerProperty getIdPetOwnerProperty() {
         return new SimpleIntegerProperty(petOwner.getIDPetOwner());
     }
-    
-    public StringProperty getFirstNameProperty(){
+
+    public StringProperty getFirstNameProperty() {
         return new SimpleStringProperty(petOwner.getFirstName());
     }
-    
-    public StringProperty getLastNameProperty(){
+
+    public StringProperty getLastNameProperty() {
         return new SimpleStringProperty(petOwner.getLastName());
     }
-    
-    public StringProperty getEmailProperty(){
+
+    public StringProperty getEmailProperty() {
         return new SimpleStringProperty(petOwner.getEmail());
     }
-    
-    public ObjectProperty<byte[]> getPictureProperty(){
-        return new SimpleObjectProperty<>(petOwner.getPicture()); 
-    }
 
+    public ObjectProperty<byte[]> getPictureProperty() {
+        return new SimpleObjectProperty<>(petOwner.getPicture());
+    }
 }

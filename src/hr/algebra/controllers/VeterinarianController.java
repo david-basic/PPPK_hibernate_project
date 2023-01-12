@@ -7,14 +7,18 @@ package hr.algebra.controllers;
 
 import hr.algebra.dao.RepositoryFactory;
 import hr.algebra.models.PetOwner;
+import hr.algebra.models.Pet;
 import hr.algebra.models.Veterinarian;
 import hr.algebra.viewmodels.OwnerViewModel;
 import hr.algebra.viewmodels.PetViewModel;
 import hr.algebra.viewmodels.VetViewModel;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -31,7 +35,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.IntegerStringConverter;
 
 /**
  * FXML Controller class
@@ -40,13 +47,17 @@ import javafx.scene.image.ImageView;
  */
 public class VeterinarianController implements Initializable {
 
-    private Map<TextField, Label> tfValidationMapPerson; // does not include Role cb
+    private Map<TextField, Label> tfValidationMapVet;
+    private Map<TextField, Label> tfValidationMapOwner;
     private Map<TextField, Label> tfValidationMapPet; // does not include Vet and Owner cbs
     private Map<ComboBox, Label> cbValidationMapPet;
 
     private final ObservableList<VetViewModel> vets = FXCollections.observableArrayList();
     private final ObservableList<OwnerViewModel> owners = FXCollections.observableArrayList();
     private final ObservableList<PetViewModel> pets = FXCollections.observableArrayList();
+
+    private ObservableList<Veterinarian> veterinarianCollection;
+    private ObservableList<PetOwner> petOwnerCollection;
 
     private VetViewModel selectedVetViewModel;
     private OwnerViewModel selectedOwnerViewModel;
@@ -58,27 +69,64 @@ public class VeterinarianController implements Initializable {
     private TabPane tpContent;
 
     @FXML
-    private Tab tabAddPerson;
+    private Tab tabVetList;
     @FXML
-    private TextField tfFirstName;
+    private TableView<VetViewModel> tvVeterinarians;
     @FXML
-    private TextField tfLastName;
+    private TableColumn<VetViewModel, String> tcVetFirstName;
     @FXML
-    private TextField tfEmail;
+    private TableColumn<VetViewModel, String> tcVetLastName;
     @FXML
-    private ComboBox<String> cbRole;
+    private TableColumn<VetViewModel, String> tcVetEmail;
+
     @FXML
-    private ImageView ivPersonImage;
+    private Tab tabAddVet;
     @FXML
-    private Label lblFirstNameError;
+    private TextField tfVetFirstName;
     @FXML
-    private Label lblLastNameError;
+    private TextField tfVetLastName;
     @FXML
-    private Label lblEmailError;
+    private TextField tfVetEmail;
     @FXML
-    private Label lblRoleError;
+    private ImageView ivVetImage;
     @FXML
-    private Label lblPersonPictureError;
+    private Label lblVetFirstNameError;
+    @FXML
+    private Label lblVetLastNameError;
+    @FXML
+    private Label lblVetEmailError;
+    @FXML
+    private Label lblVetPictureError;
+
+    @FXML
+    private Tab tabOwnerList;
+    @FXML
+    private TableView<OwnerViewModel> tvOwners;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerFirstName;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerLastName;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerEmail;
+
+    @FXML
+    private Tab tabAddOwner;
+    @FXML
+    private TextField tfOwnerFirstName;
+    @FXML
+    private TextField tfOwnerLastName;
+    @FXML
+    private TextField tfOwnerEmail;
+    @FXML
+    private ImageView ivOwnerImage;
+    @FXML
+    private Label lblOwnerFirstNameError;
+    @FXML
+    private Label lblOwnerLastNameError;
+    @FXML
+    private Label lblOwnerEmailError;
+    @FXML
+    private Label lblOwnerPictureError;
 
     @FXML
     private Tab tabAddPet;
@@ -108,28 +156,6 @@ public class VeterinarianController implements Initializable {
     private Label lblPetOwnerChoiceError;
 
     @FXML
-    private Tab tabVetList;
-    @FXML
-    private TableView<VetViewModel> tvVeterinarians;
-    @FXML
-    private TableColumn<VetViewModel, String> tcVetFirstName;
-    @FXML
-    private TableColumn<VetViewModel, String> tcVetLastName;
-    @FXML
-    private TableColumn<VetViewModel, String> tcVetEmail;
-
-    @FXML
-    private Tab tabOwnerList;
-    @FXML
-    private TableView<OwnerViewModel> tvOwners;
-    @FXML
-    private TableColumn<OwnerViewModel, String> tcOwnerFirstName;
-    @FXML
-    private TableColumn<OwnerViewModel, String> tcOwnerLastName;
-    @FXML
-    private TableColumn<OwnerViewModel, String> tcOwnerEmail;
-
-    @FXML
     private Tab tabPetList;
     @FXML
     private TableView<PetViewModel> tvPets;
@@ -154,6 +180,7 @@ public class VeterinarianController implements Initializable {
         initOwners();
         initPets();
         initTables();
+        initCbs();
         addIntegerMask(tfPetAge);
         setupListeners();
     }
@@ -175,14 +202,6 @@ public class VeterinarianController implements Initializable {
     }
 
     @FXML
-    private void uploadPersonPicture(ActionEvent event) {
-    }
-
-    @FXML
-    private void commitPerson(ActionEvent event) {
-    }
-
-    @FXML
     private void editPet(ActionEvent event) {
     }
 
@@ -199,10 +218,16 @@ public class VeterinarianController implements Initializable {
     }
 
     private void initValidation() {
-        tfValidationMapPerson = Stream.of(
-                new AbstractMap.SimpleImmutableEntry<>(tfFirstName, lblFirstNameError),
-                new AbstractMap.SimpleImmutableEntry<>(tfLastName, lblLastNameError),
-                new AbstractMap.SimpleImmutableEntry<>(tfEmail, lblEmailError)
+        tfValidationMapVet = Stream.of(
+                new AbstractMap.SimpleImmutableEntry<>(tfVetFirstName, lblVetFirstNameError),
+                new AbstractMap.SimpleImmutableEntry<>(tfVetLastName, lblVetLastNameError),
+                new AbstractMap.SimpleImmutableEntry<>(tfVetEmail, lblVetEmailError)
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        tfValidationMapOwner = Stream.of(
+                new AbstractMap.SimpleImmutableEntry<>(tfOwnerFirstName, lblOwnerFirstNameError),
+                new AbstractMap.SimpleImmutableEntry<>(tfOwnerLastName, lblOwnerLastNameError),
+                new AbstractMap.SimpleImmutableEntry<>(tfOwnerEmail, lblOwnerEmailError)
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         tfValidationMapPet = Stream.of(
@@ -261,11 +286,120 @@ public class VeterinarianController implements Initializable {
 
     }
 
-    private void addIntegerMask(TextField tfAge) {
-        
+    private void initCbs() {
+        owners.forEach(o -> petOwnerCollection.add(o.getPetOwner()));
+        vets.forEach(v -> veterinarianCollection.add(v.getVeterinarian()));
+
+        cbOwner.setItems(petOwnerCollection);
+        cbVeterinarian.setItems(veterinarianCollection);
+    }
+
+    private void addIntegerMask(TextField tf) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            if (change.getText().matches("\\d*")) {
+                return change;
+            }
+            return null;
+        };
+
+        tf.setTextFormatter(new TextFormatter<>(
+                new IntegerStringConverter(), 0, filter
+        ));
     }
 
     private void setupListeners() {
-        
+        tpContent.setOnMouseClicked(event -> {
+            if (tpContent.getSelectionModel().getSelectedItem().equals(tabAddVet)
+                    && !tabAddVet.equals(previousTab)) {
+                bindVet(null);
+            } else if (tpContent.getSelectionModel().getSelectedItem().equals(tabAddPet)
+                    && !tabAddPet.equals(previousTab)) {
+                bindPet(null);
+            } else if (tpContent.getSelectionModel().getSelectedItem().equals(tabAddOwner)
+                    && !tabAddOwner.equals(previousTab)) {
+                bindOwner(null);
+            }
+
+            previousTab = tpContent.getSelectionModel().getSelectedItem();
+        });
+
+    }
+
+    private void bindVet(VetViewModel vetViewModel) {
+        resetForm();
+
+        selectedVetViewModel = vetViewModel != null ? vetViewModel : new VetViewModel(null);
+
+        tfVetFirstName.setText(vetViewModel.getFirstNameProperty().get());
+        tfVetLastName.setText(vetViewModel.getLastNameProperty().get());
+        tfVetEmail.setText(vetViewModel.getEmailProperty().get());
+
+        ivVetImage.setImage(
+                selectedVetViewModel.getPictureProperty().get() != null
+                ? new Image(new ByteArrayInputStream(selectedVetViewModel.getPictureProperty().get()))
+                : new Image(new File("src/assets/no_image.png").toURI().toString())
+        );
+
+    }
+
+    private void bindOwner(OwnerViewModel ownerViewModel) {
+        resetForm();
+
+        selectedOwnerViewModel = ownerViewModel != null ? ownerViewModel : new OwnerViewModel(null);
+
+        tfOwnerFirstName.setText(ownerViewModel.getFirstNameProperty().get());
+        tfOwnerLastName.setText(ownerViewModel.getLastNameProperty().get());
+        tfOwnerEmail.setText(ownerViewModel.getEmailProperty().get());
+
+        ivOwnerImage.setImage(
+                selectedOwnerViewModel.getPictureProperty().get() != null
+                ? new Image(new ByteArrayInputStream(selectedOwnerViewModel.getPictureProperty().get()))
+                : new Image(new File("src/assets/no_image.png").toURI().toString())
+        );
+    }
+
+    private void bindPet(PetViewModel petViewModel) {
+        resetForm();
+
+        selectedPetViewModel = petViewModel != null ? petViewModel : new PetViewModel(null);
+
+        tfPetName.setText(petViewModel.getPetNameProperty().get());
+        tfSpecies.setText(petViewModel.getSpeciesProperty().get());
+        tfPetAge.setText(petViewModel.getAgeProperty().get() + "");
+        cbOwner.setValue(petViewModel.getPetOwnerProperty().get());
+        cbVeterinarian.setValue(petViewModel.getVeterinarianProperty().get());
+
+        ivPetImage.setImage(
+                selectedPetViewModel.getPictureProperty().get() != null
+                ? new Image(new ByteArrayInputStream(selectedPetViewModel.getPictureProperty().get()))
+                : new Image(new File("src/assets/no_image.png").toURI().toString())
+        );
+
+    }
+
+    private void resetForm() {
+        tfValidationMapVet.values().forEach(lb -> lb.setVisible(false));
+        lblVetPictureError.setVisible(false);
+        tfValidationMapOwner.values().forEach(lb -> lb.setVisible(false));
+        lblOwnerPictureError.setVisible(false);
+        tfValidationMapPet.values().forEach(lb -> lb.setVisible(false));
+        cbValidationMapPet.values().forEach(lb ->lb.setVisible(false));
+        lblPetPictureError.setVisible(false);
+    }
+
+    @FXML
+    private void uploadVetPicture(ActionEvent event) {
+    }
+
+    @FXML
+    private void commitVet(ActionEvent event) {
+    }
+
+    @FXML
+    private void uploadOwnerPicture(ActionEvent event) {
+    }
+
+    @FXML
+    private void commitOwner(ActionEvent event) {
     }
 }
