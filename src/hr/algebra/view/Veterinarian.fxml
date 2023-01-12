@@ -1,11 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="700" prefWidth="1200" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.controllers.VeterinarianController">
-    
+<AnchorPane id="AnchorPane" prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.controllers.VeterinarianController">
+   <children>
+      <TabPane fx:id="tpContent" layoutX="212.0" layoutY="96.0" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="tabVetList" style="-fx-background-color: lightblue;" text="Veterinarian list">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvVeterinarians" layoutX="162.0" layoutY="104.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="tcFirstName" prefWidth="75.0" text="Frst name" />
+                            <TableColumn fx:id="tcLastName" prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="tcEmail" prefWidth="75.0" text="Email" />
+                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="986.0" layoutY="600.0" mnemonicParsing="false" onAction="#editVet" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: green;" text="EDIT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="1096.0" layoutY="600.0" mnemonicParsing="false" onAction="#deleteVet" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabOwnerList" text="Owner list">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvOwners" layoutX="207.0" layoutY="81.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="tcFirstName" prefWidth="75.0" text="First name" />
+                            <TableColumn fx:id="tcLastName" prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="tcEmail" prefWidth="75.0" text="Email" />
+                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="988.0" layoutY="600.0" mnemonicParsing="false" onAction="#editOwner" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: green;" text="EDIT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="1096.0" layoutY="600.0" mnemonicParsing="false" onAction="#deleteOwner" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabAddPerson" style="-fx-background-color: orange;" text="Add Vet/Owner">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="ivPersonImage" fitHeight="466.0" fitWidth="368.0" layoutX="803.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../assets/no_image.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="803.0" layoutY="414.0" mnemonicParsing="false" onAction="#uploadPersonPicture" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: purple;" text="UPLOAD" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="915.0" layoutY="414.0" mnemonicParsing="false" onAction="#commitPerson" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: blue;" text="COMMIT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label alignment="CENTER_RIGHT" layoutX="164.0" layoutY="72.0" prefHeight="17.0" prefWidth="63.0" text="First name:" />
+                        <TextField fx:id="tfFirstName" layoutX="244.0" layoutY="68.0" prefHeight="25.0" prefWidth="199.0" />
+                        <Label fx:id="lblFirstNameError" layoutX="456.0" layoutY="67.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="167.0" layoutY="121.0" prefHeight="17.0" prefWidth="60.0" text="Last name:" />
+                        <Label fx:id="lblLastNameError" layoutX="456.0" layoutY="116.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="189.0" layoutY="166.0" prefHeight="17.0" prefWidth="38.0" text="Email:" />
+                        <Label fx:id="lblEmailError" layoutX="530.0" layoutY="161.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="189.0" layoutY="213.0" prefHeight="17.0" prefWidth="38.0" text="Role:" />
+                        <Label fx:id="lblRoleError" layoutX="456.0" layoutY="208.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfLastName" layoutX="244.0" layoutY="117.0" prefHeight="25.0" prefWidth="199.0" />
+                        <TextField fx:id="tfEmail" layoutX="244.0" layoutY="162.0" prefHeight="25.0" prefWidth="270.0" />
+                        <ComboBox fx:id="cbRole" layoutX="244.0" layoutY="209.0" prefHeight="25.0" prefWidth="197.0" promptText="Choose a role" />
+                        <Label fx:id="lblPictureError" layoutX="778.0" layoutY="25.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tabPetList" text="Pet list">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvPets" layoutX="144.0" layoutY="22.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="tcPetName" prefWidth="75.0" text="Pet name" />
+                            <TableColumn fx:id="tcSpecies" prefWidth="75.0" text="Species" />
+                              <TableColumn fx:id="tcAge" prefWidth="75.0" text="Age" />
+                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
+                              <TableColumn fx:id="tcVeterinarian" prefWidth="75.0" text="Veterinarian" />
+                              <TableColumn fx:id="tcPetOwner" prefWidth="75.0" text="Pet owner" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="988.0" layoutY="600.0" mnemonicParsing="false" onAction="#editPet" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: green;" text="EDIT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="1096.0" layoutY="600.0" mnemonicParsing="false" onAction="#deletePet" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tabAddPet" style="-fx-background-color: lightgreen;" text="Add pet">
+              <content>
+                <AnchorPane fx:id="ivPetImage" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="ivPersonImage1" fitHeight="466.0" fitWidth="368.0" layoutX="805.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../assets/no_image.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="805.0" layoutY="411.0" mnemonicParsing="false" onAction="#uploadPetPicture" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: purple;" text="UPLOAD" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="918.0" layoutY="411.0" mnemonicParsing="false" onAction="#commitPet" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: blue;" text="COMMIT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label alignment="CENTER_RIGHT" layoutX="183.0" layoutY="44.0" prefHeight="17.0" prefWidth="63.0" text="Pet name:" />
+                        <TextField fx:id="tfPetName" layoutX="257.0" layoutY="40.0" prefHeight="25.0" prefWidth="199.0" />
+                        <Label fx:id="lblPetNameError" layoutX="476.0" layoutY="39.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblPictureError" layoutX="775.0" layoutY="26.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="183.0" layoutY="85.0" prefHeight="17.0" prefWidth="63.0" text="Species:" />
+                        <TextField fx:id="tfSpecies" layoutX="257.0" layoutY="81.0" prefHeight="25.0" prefWidth="199.0" />
+                        <Label fx:id="lblSpeciesError" layoutX="476.0" layoutY="80.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="183.0" layoutY="135.0" prefHeight="17.0" prefWidth="63.0" text="Age:" />
+                        <Label fx:id="lblAgeError" layoutX="476.0" layoutY="130.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="170.0" layoutY="187.0" prefHeight="17.0" prefWidth="76.0" text="Veterinarian:" />
+                        <Label fx:id="lblPetNameError111" layoutX="535.0" layoutY="182.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Spinner fx:id="spAge" editable="true" layoutX="257.0" layoutY="131.0" prefHeight="25.0" prefWidth="198.0" />
+                        <ComboBox fx:id="cbVeterinarian" layoutX="257.0" layoutY="183.0" prefHeight="25.0" prefWidth="264.0" promptText="Choose veterinarian" />
+                        <Label alignment="CENTER_RIGHT" layoutX="168.0" layoutY="230.0" prefHeight="17.0" prefWidth="76.0" text="Owner:" />
+                        <Label fx:id="lblOwnerError" layoutX="535.0" layoutY="225.0" text="X" textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="cbOwner" layoutX="257.0" layoutY="226.0" prefHeight="25.0" prefWidth="264.0" promptText="Choose owner" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>
