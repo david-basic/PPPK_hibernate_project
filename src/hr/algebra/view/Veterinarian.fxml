@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -210,7 +209,6 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Spinner fx:id="spAge" editable="true" layoutX="257.0" layoutY="131.0" prefHeight="25.0" prefWidth="198.0" />
                         <ComboBox fx:id="cbVeterinarian" layoutX="257.0" layoutY="183.0" prefHeight="25.0" prefWidth="264.0" promptText="Choose veterinarian" />
                         <Label alignment="CENTER_RIGHT" layoutX="168.0" layoutY="230.0" prefHeight="17.0" prefWidth="76.0" text="Owner:" />
                         <Label fx:id="lblPetOwnerChoiceError" layoutX="535.0" layoutY="225.0" text="X" textFill="RED" visible="false">
@@ -219,6 +217,7 @@
                            </font>
                         </Label>
                         <ComboBox fx:id="cbOwner" layoutX="257.0" layoutY="226.0" prefHeight="25.0" prefWidth="264.0" promptText="Choose owner" />
+                        <TextField fx:id="tfPetAge" layoutX="257.0" layoutY="131.0" prefHeight="25.0" prefWidth="199.0" />
                      </children>
                   </AnchorPane>
               </content>

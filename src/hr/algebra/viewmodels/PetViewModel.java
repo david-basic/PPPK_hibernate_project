@@ -31,7 +31,7 @@ public class PetViewModel {
         return pet;
     }
 
-    public IntegerProperty getIdVeterinarianProperty() {
+    public IntegerProperty getIdPetProperty() {
         return new SimpleIntegerProperty(pet.getIDPet());
     }
 

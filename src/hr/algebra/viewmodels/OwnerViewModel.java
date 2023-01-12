@@ -29,7 +29,7 @@ public class OwnerViewModel {
         return petOwner;
     }
 
-    public IntegerProperty getIdVeterinarianProperty() {
+    public IntegerProperty getIdPetOwnerProperty() {
         return new SimpleIntegerProperty(petOwner.getIDPetOwner());
     }
     
