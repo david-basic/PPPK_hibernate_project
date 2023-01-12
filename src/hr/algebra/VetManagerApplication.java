@@ -23,7 +23,7 @@ public class VetManagerApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("view/Veterinarian.fxml"));
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 700);
 
         primaryStage.setTitle("Vet manager");
         primaryStage.setScene(scene);

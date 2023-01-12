@@ -6,6 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.controllers.VeterinarianController">
+<AnchorPane id="AnchorPane" prefHeight="700" prefWidth="1200" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.controllers.VeterinarianController">
     
 </AnchorPane>
