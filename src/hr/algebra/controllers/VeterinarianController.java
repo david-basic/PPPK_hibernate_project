@@ -187,34 +187,80 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void editVet(ActionEvent event) {
+        if (tvVeterinarians.getSelectionModel().getSelectedItem() != null) {
+            bindVet(tvVeterinarians.getSelectionModel().getSelectedItem());
+            tpContent.getSelectionModel().select(tabAddVet);
+            previousTab = tabAddVet;
+        }
     }
 
     @FXML
     private void deleteVet(ActionEvent event) {
+        if (tvVeterinarians.getSelectionModel().getSelectedItem() != null) {
+            vets.remove(tvVeterinarians.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
     private void editOwner(ActionEvent event) {
+        if (tvOwners.getSelectionModel().getSelectedItem() != null) {
+            bindOwner(tvOwners.getSelectionModel().getSelectedItem());
+            tpContent.getSelectionModel().select(tabAddOwner);
+            previousTab = tabAddOwner;
+        }
     }
 
     @FXML
     private void deleteOwner(ActionEvent event) {
+        if (tvOwners.getSelectionModel().getSelectedItem() != null) {
+            owners.remove(tvOwners.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
     private void editPet(ActionEvent event) {
+        if (tvPets.getSelectionModel().getSelectedItem() != null) {
+            bindPet(tvPets.getSelectionModel().getSelectedItem());
+            tpContent.getSelectionModel().select(tabAddPet);
+            previousTab = tabAddPet;
+        }
     }
 
     @FXML
     private void deletePet(ActionEvent event) {
+        if (tvPets.getSelectionModel().getSelectedItem() != null) {
+            pets.remove(tvPets.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
     private void uploadPetPicture(ActionEvent event) {
+
     }
 
     @FXML
     private void commitPet(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void uploadVetPicture(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void commitVet(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void uploadOwnerPicture(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void commitOwner(ActionEvent event) {
+
     }
 
     private void initValidation() {
@@ -383,23 +429,7 @@ public class VeterinarianController implements Initializable {
         tfValidationMapOwner.values().forEach(lb -> lb.setVisible(false));
         lblOwnerPictureError.setVisible(false);
         tfValidationMapPet.values().forEach(lb -> lb.setVisible(false));
-        cbValidationMapPet.values().forEach(lb ->lb.setVisible(false));
+        cbValidationMapPet.values().forEach(lb -> lb.setVisible(false));
         lblPetPictureError.setVisible(false);
-    }
-
-    @FXML
-    private void uploadVetPicture(ActionEvent event) {
-    }
-
-    @FXML
-    private void commitVet(ActionEvent event) {
-    }
-
-    @FXML
-    private void uploadOwnerPicture(ActionEvent event) {
-    }
-
-    @FXML
-    private void commitOwner(ActionEvent event) {
     }
 }
