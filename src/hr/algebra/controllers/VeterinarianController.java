@@ -5,8 +5,17 @@
  */
 package hr.algebra.controllers;
 
+import hr.algebra.models.PetOwner;
+import hr.algebra.models.Role;
+import hr.algebra.models.Veterinarian;
+import hr.algebra.viewmodels.OwnerViewModel;
+import hr.algebra.viewmodels.PetViewModel;
+import hr.algebra.viewmodels.VetViewModel;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +28,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -28,30 +36,32 @@ import javafx.scene.layout.AnchorPane;
  */
 public class VeterinarianController implements Initializable {
 
+    private Map<TextField, Label> validationMap;
+    private final ObservableList<VetViewModel> vets = FXCollections.observableArrayList();
+    private final ObservableList<OwnerViewModel> owners = FXCollections.observableArrayList();
+    private final ObservableList<PetViewModel> pets = FXCollections.observableArrayList();
+
+    private VetViewModel selectedVetViewModel;
+    private OwnerViewModel selectedOwnerViewModel;
+    private PetViewModel selectedPetViewModel;
+
+    private Tab previousTab;
+
     @FXML
     private TabPane tpContent;
-    @FXML
-    private Tab tabVetList;
-    @FXML
-    private TableView<?> tvVeterinarians;
-    @FXML
-    private TableColumn<?, ?> tcFirstName;
-    @FXML
-    private TableColumn<?, ?> tcLastName;
-    @FXML
-    private TableColumn<?, ?> tcEmail;
-    @FXML
-    private TableColumn<?, ?> tcPicture;
-    @FXML
-    private Tab tabOwnerList;
-    @FXML
-    private TableView<?> tvOwners;
+
     @FXML
     private Tab tabAddPerson;
     @FXML
-    private ImageView ivPersonImage;
-    @FXML
     private TextField tfFirstName;
+    @FXML
+    private TextField tfLastName;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private ComboBox<Role> cbRole;
+    @FXML
+    private ImageView ivPersonImage;
     @FXML
     private Label lblFirstNameError;
     @FXML
@@ -61,53 +71,71 @@ public class VeterinarianController implements Initializable {
     @FXML
     private Label lblRoleError;
     @FXML
-    private TextField tfLastName;
-    @FXML
-    private TextField tfEmail;
-    @FXML
-    private ComboBox<?> cbRole;
-    @FXML
-    private Label lblPictureError;
-    @FXML
-    private Tab tabPetList;
-    @FXML
-    private TableView<?> tvPets;
-    @FXML
-    private TableColumn<?, ?> tcPetName;
-    @FXML
-    private TableColumn<?, ?> tcSpecies;
-    @FXML
-    private TableColumn<?, ?> tcAge;
-    @FXML
-    private TableColumn<?, ?> tcVeterinarian;
-    @FXML
-    private TableColumn<?, ?> tcPetOwner;
+    private Label lblPersonPictureError;
+
     @FXML
     private Tab tabAddPet;
     @FXML
-    private AnchorPane ivPetImage;
-    @FXML
-    private ImageView ivPersonImage1;
-    @FXML
     private TextField tfPetName;
     @FXML
-    private Label lblPetNameError;
-    @FXML
     private TextField tfSpecies;
+    @FXML
+    private Spinner<Integer> spAge;
+    @FXML
+    private ComboBox<Veterinarian> cbVeterinarian;
+    @FXML
+    private ComboBox<PetOwner> cbOwner;
+    @FXML
+    private ImageView ivPetImage;
+    @FXML
+    private Label lblPetNameError;
     @FXML
     private Label lblSpeciesError;
     @FXML
     private Label lblAgeError;
     @FXML
-    private Label lblPetNameError111;
+    private Label lblPetPictureError;
     @FXML
-    private Spinner<?> spAge;
+    private Label lblVeterinarianChoiceError;
     @FXML
-    private ComboBox<?> cbVeterinarian;
+    private Label lblPetOwnerChoiceError;
+
     @FXML
-    private Label lblOwnerError;
+    private Tab tabVetList;
     @FXML
-    private ComboBox<?> cbOwner;
+    private TableView<VetViewModel> tvVeterinarians;
+    @FXML
+    private TableColumn<VetViewModel, String> tcVetFirstName;
+    @FXML
+    private TableColumn<VetViewModel, String> tcVetLastName;
+    @FXML
+    private TableColumn<VetViewModel, String> tcVetEmail;
+
+    @FXML
+    private Tab tabOwnerList;
+    @FXML
+    private TableView<OwnerViewModel> tvOwners;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerFirstName;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerLastName;
+    @FXML
+    private TableColumn<OwnerViewModel, String> tcOwnerEmail;
+
+    @FXML
+    private Tab tabPetList;
+    @FXML
+    private TableView<PetViewModel> tvPets;
+    @FXML
+    private TableColumn<PetViewModel, String> tcPetName;
+    @FXML
+    private TableColumn<PetViewModel, String> tcPetSpecies;
+    @FXML
+    private TableColumn<PetViewModel, Integer> tcPetAge;
+    @FXML
+    private TableColumn<PetViewModel, Veterinarian> tcPetVeterinarian;
+    @FXML
+    private TableColumn<PetViewModel, PetOwner> tcPetOwner;
 
     /**
      * Initializes the controller class.
@@ -120,7 +148,6 @@ public class VeterinarianController implements Initializable {
     @FXML
     private void editVet(ActionEvent event) {
     }
-
     @FXML
     private void deleteVet(ActionEvent event) {
     }
@@ -128,7 +155,6 @@ public class VeterinarianController implements Initializable {
     @FXML
     private void editOwner(ActionEvent event) {
     }
-
     @FXML
     private void deleteOwner(ActionEvent event) {
     }
@@ -136,15 +162,13 @@ public class VeterinarianController implements Initializable {
     @FXML
     private void uploadPersonPicture(ActionEvent event) {
     }
-
     @FXML
     private void commitPerson(ActionEvent event) {
     }
-
+    
     @FXML
     private void editPet(ActionEvent event) {
     }
-
     @FXML
     private void deletePet(ActionEvent event) {
     }
@@ -152,8 +176,7 @@ public class VeterinarianController implements Initializable {
     @FXML
     private void uploadPetPicture(ActionEvent event) {
     }
-
     @FXML
     private void commitPet(ActionEvent event) {
     }
-    }
+}

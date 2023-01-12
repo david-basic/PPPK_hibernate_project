@@ -157,7 +157,7 @@ public class Pet implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.models.Pet[ iDPet=" + iDPet + " ]";
+        return petName;
     }
 
     public void updateData(Pet data) {

@@ -24,10 +24,9 @@
                      <children>
                         <TableView fx:id="tvVeterinarians" layoutX="162.0" layoutY="104.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="tcFirstName" prefWidth="75.0" text="Frst name" />
-                            <TableColumn fx:id="tcLastName" prefWidth="75.0" text="Last name" />
-                              <TableColumn fx:id="tcEmail" prefWidth="75.0" text="Email" />
-                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
+                            <TableColumn fx:id="tcVetFirstName" prefWidth="75.0" text="First name" />
+                            <TableColumn fx:id="tcVetLastName" prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="tcVetEmail" prefWidth="75.0" text="Email" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -53,10 +52,9 @@
                      <children>
                         <TableView fx:id="tvOwners" layoutX="207.0" layoutY="81.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="tcFirstName" prefWidth="75.0" text="First name" />
-                            <TableColumn fx:id="tcLastName" prefWidth="75.0" text="Last name" />
-                              <TableColumn fx:id="tcEmail" prefWidth="75.0" text="Email" />
-                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
+                            <TableColumn fx:id="tcOwnerFirstName" prefWidth="75.0" text="First name" />
+                            <TableColumn fx:id="tcOwnerLastName" prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="tcOwnerEmail" prefWidth="75.0" text="Email" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -123,7 +121,7 @@
                         <TextField fx:id="tfLastName" layoutX="244.0" layoutY="117.0" prefHeight="25.0" prefWidth="199.0" />
                         <TextField fx:id="tfEmail" layoutX="244.0" layoutY="162.0" prefHeight="25.0" prefWidth="270.0" />
                         <ComboBox fx:id="cbRole" layoutX="244.0" layoutY="209.0" prefHeight="25.0" prefWidth="197.0" promptText="Choose a role" />
-                        <Label fx:id="lblPictureError" layoutX="778.0" layoutY="25.0" text="X" textFill="RED" visible="false">
+                        <Label fx:id="lblPersonPictureError" layoutX="778.0" layoutY="25.0" text="X" textFill="RED" visible="false">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -139,10 +137,9 @@
                         <TableView fx:id="tvPets" layoutX="144.0" layoutY="22.0" prefHeight="590.0" prefWidth="1200.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="tcPetName" prefWidth="75.0" text="Pet name" />
-                            <TableColumn fx:id="tcSpecies" prefWidth="75.0" text="Species" />
-                              <TableColumn fx:id="tcAge" prefWidth="75.0" text="Age" />
-                              <TableColumn fx:id="tcPicture" prefWidth="75.0" text="Picture" />
-                              <TableColumn fx:id="tcVeterinarian" prefWidth="75.0" text="Veterinarian" />
+                            <TableColumn fx:id="tcPetSpecies" prefWidth="75.0" text="Species" />
+                              <TableColumn fx:id="tcPetAge" prefWidth="75.0" text="Age" />
+                              <TableColumn fx:id="tcPetVeterinarian" prefWidth="75.0" text="Veterinarian" />
                               <TableColumn fx:id="tcPetOwner" prefWidth="75.0" text="Pet owner" />
                           </columns>
                            <columnResizePolicy>
@@ -165,9 +162,9 @@
             </Tab>
             <Tab fx:id="tabAddPet" style="-fx-background-color: lightgreen;" text="Add pet">
               <content>
-                <AnchorPane fx:id="ivPetImage" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="ivPersonImage1" fitHeight="466.0" fitWidth="368.0" layoutX="805.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ivPetImage" fitHeight="466.0" fitWidth="368.0" layoutX="805.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../assets/no_image.png" />
                            </image>
@@ -189,7 +186,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblPictureError" layoutX="775.0" layoutY="26.0" text="X" textFill="RED" visible="false">
+                        <Label fx:id="lblPetPictureError" layoutX="775.0" layoutY="26.0" text="X" textFill="RED" visible="false">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -208,7 +205,7 @@
                            </font>
                         </Label>
                         <Label alignment="CENTER_RIGHT" layoutX="170.0" layoutY="187.0" prefHeight="17.0" prefWidth="76.0" text="Veterinarian:" />
-                        <Label fx:id="lblPetNameError111" layoutX="535.0" layoutY="182.0" text="X" textFill="RED" visible="false">
+                        <Label fx:id="lblVeterinarianChoiceError" layoutX="535.0" layoutY="182.0" text="X" textFill="RED" visible="false">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -216,7 +213,7 @@
                         <Spinner fx:id="spAge" editable="true" layoutX="257.0" layoutY="131.0" prefHeight="25.0" prefWidth="198.0" />
                         <ComboBox fx:id="cbVeterinarian" layoutX="257.0" layoutY="183.0" prefHeight="25.0" prefWidth="264.0" promptText="Choose veterinarian" />
                         <Label alignment="CENTER_RIGHT" layoutX="168.0" layoutY="230.0" prefHeight="17.0" prefWidth="76.0" text="Owner:" />
-                        <Label fx:id="lblOwnerError" layoutX="535.0" layoutY="225.0" text="X" textFill="RED" visible="false">
+                        <Label fx:id="lblPetOwnerChoiceError" layoutX="535.0" layoutY="225.0" text="X" textFill="RED" visible="false">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

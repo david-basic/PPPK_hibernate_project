@@ -148,7 +148,7 @@ public class Veterinarian implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.models.Veterinarian[ iDVeterinarian=" + iDVeterinarian + " ]";
+        return firstName + " " + lastName;
     }
 
     public void updateData(Veterinarian data) {
