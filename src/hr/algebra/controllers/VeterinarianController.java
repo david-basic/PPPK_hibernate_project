@@ -368,7 +368,6 @@ public class VeterinarianController implements Initializable {
 
             previousTab = tpContent.getSelectionModel().getSelectedItem();
         });
-
     }
 
     private void bindVet(VetViewModel vetViewModel) {
@@ -376,16 +375,15 @@ public class VeterinarianController implements Initializable {
 
         selectedVetViewModel = vetViewModel != null ? vetViewModel : new VetViewModel(null);
 
-        tfVetFirstName.setText(vetViewModel.getFirstNameProperty().get());
-        tfVetLastName.setText(vetViewModel.getLastNameProperty().get());
-        tfVetEmail.setText(vetViewModel.getEmailProperty().get());
+        tfVetFirstName.setText(selectedVetViewModel.getFirstNameProperty().get());
+        tfVetLastName.setText(selectedVetViewModel.getLastNameProperty().get());
+        tfVetEmail.setText(selectedVetViewModel.getEmailProperty().get());
 
         ivVetImage.setImage(
                 selectedVetViewModel.getPictureProperty().get() != null
                 ? new Image(new ByteArrayInputStream(selectedVetViewModel.getPictureProperty().get()))
                 : new Image(new File("src/assets/no_image.png").toURI().toString())
         );
-
     }
 
     private void bindOwner(OwnerViewModel ownerViewModel) {
@@ -393,9 +391,9 @@ public class VeterinarianController implements Initializable {
 
         selectedOwnerViewModel = ownerViewModel != null ? ownerViewModel : new OwnerViewModel(null);
 
-        tfOwnerFirstName.setText(ownerViewModel.getFirstNameProperty().get());
-        tfOwnerLastName.setText(ownerViewModel.getLastNameProperty().get());
-        tfOwnerEmail.setText(ownerViewModel.getEmailProperty().get());
+        tfOwnerFirstName.setText(selectedOwnerViewModel.getFirstNameProperty().get());
+        tfOwnerLastName.setText(selectedOwnerViewModel.getLastNameProperty().get());
+        tfOwnerEmail.setText(selectedOwnerViewModel.getEmailProperty().get());
 
         ivOwnerImage.setImage(
                 selectedOwnerViewModel.getPictureProperty().get() != null
@@ -409,11 +407,11 @@ public class VeterinarianController implements Initializable {
 
         selectedPetViewModel = petViewModel != null ? petViewModel : new PetViewModel(null);
 
-        tfPetName.setText(petViewModel.getPetNameProperty().get());
-        tfSpecies.setText(petViewModel.getSpeciesProperty().get());
-        tfPetAge.setText(petViewModel.getAgeProperty().get() + "");
-        cbOwner.setValue(petViewModel.getPetOwnerProperty().get());
-        cbVeterinarian.setValue(petViewModel.getVeterinarianProperty().get());
+        tfPetName.setText(selectedPetViewModel.getPetNameProperty().get());
+        tfSpecies.setText(selectedPetViewModel.getSpeciesProperty().get());
+        tfPetAge.setText(selectedPetViewModel.getAgeProperty().get() + "");
+        cbOwner.setValue(selectedPetViewModel.getPetOwnerProperty().get());
+        cbVeterinarian.setValue(selectedPetViewModel.getVeterinarianProperty().get());
 
         ivPetImage.setImage(
                 selectedPetViewModel.getPictureProperty().get() != null
