@@ -7,7 +7,6 @@ package hr.algebra.controllers;
 
 import hr.algebra.dao.RepositoryFactory;
 import hr.algebra.models.PetOwner;
-import hr.algebra.models.Pet;
 import hr.algebra.models.Veterinarian;
 import hr.algebra.viewmodels.OwnerViewModel;
 import hr.algebra.viewmodels.PetViewModel;
@@ -329,7 +328,6 @@ public class VeterinarianController implements Initializable {
         tcPetOwner.setCellValueFactory(pet -> pet.getValue().getPetOwnerProperty());
         tcPetVeterinarian.setCellValueFactory(pet -> pet.getValue().getVeterinarianProperty());
         tvPets.setItems(pets);
-
     }
 
     private void initCbs() {
@@ -418,7 +416,6 @@ public class VeterinarianController implements Initializable {
                 ? new Image(new ByteArrayInputStream(selectedPetViewModel.getPictureProperty().get()))
                 : new Image(new File("src/assets/no_image.png").toURI().toString())
         );
-
     }
 
     private void resetForm() {
