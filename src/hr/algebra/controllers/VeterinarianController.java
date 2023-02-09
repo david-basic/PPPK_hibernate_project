@@ -8,11 +8,14 @@ package hr.algebra.controllers;
 import hr.algebra.dao.RepositoryFactory;
 import hr.algebra.models.PetOwner;
 import hr.algebra.models.Veterinarian;
+import hr.algebra.utilities.FileUtils;
+import hr.algebra.utilities.ImageUtils;
 import hr.algebra.viewmodels.OwnerViewModel;
 import hr.algebra.viewmodels.PetViewModel;
 import hr.algebra.viewmodels.VetViewModel;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.AbstractMap;
 import java.util.Map;
@@ -235,7 +238,20 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void uploadPetPicture(ActionEvent event) {
-
+        File file = FileUtils.uploadFileDialog(tfPetName.getScene().getWindow(), "jpg", "jpeg", "png");
+        
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            ivPetImage.setImage(image);
+            
+            String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            try {
+                selectedPetViewModel.getPet().setPicture(ImageUtils.imageToByteArray(image, ext));
+            } catch (IOException ex) {
+                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     @FXML
@@ -245,7 +261,19 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void uploadVetPicture(ActionEvent event) {
-
+        File file = FileUtils.uploadFileDialog(tfVetFirstName.getScene().getWindow(), "jpg", "jpeg", "png");
+        
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            ivVetImage.setImage(image);
+            
+            String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            try {
+                selectedVetViewModel.getVeterinarian().setPicture(ImageUtils.imageToByteArray(image, ext));
+            } catch (IOException ex) {
+                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
@@ -255,7 +283,19 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void uploadOwnerPicture(ActionEvent event) {
-
+        File file = FileUtils.uploadFileDialog(tfOwnerFirstName.getScene().getWindow(), "jpg", "jpeg", "png");
+        
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            ivOwnerImage.setImage(image);
+            
+            String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            try {
+                selectedOwnerViewModel.getPetOwner().setPicture(ImageUtils.imageToByteArray(image, ext));
+            } catch (IOException ex) {
+                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
