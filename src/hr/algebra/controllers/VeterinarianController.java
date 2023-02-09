@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -365,6 +366,89 @@ public class VeterinarianController implements Initializable {
             }
 
             previousTab = tpContent.getSelectionModel().getSelectedItem();
+        });
+
+        vets.addListener(new ListChangeListener<VetViewModel>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends VetViewModel> change) {
+                if (change.next()) {
+                    if (change.wasRemoved()) {
+                        change.getRemoved().forEach(vvm -> {
+                            try {
+                                RepositoryFactory.getRepository().deleteVeterinarian(vvm.getVeterinarian());
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+
+                    } else if (change.wasAdded()) {
+                        change.getAddedSubList().forEach(vvm -> {
+                            try {
+                                int idVet = RepositoryFactory.getRepository().addVeterinarian(vvm.getVeterinarian());
+                                vvm.getVeterinarian().setIDVeterinarian(idVet);
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+
+        owners.addListener(new ListChangeListener<OwnerViewModel>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends OwnerViewModel> change) {
+                if (change.next()) {
+                    if (change.wasRemoved()) {
+                        change.getRemoved().forEach(ovm -> {
+                            try {
+                                RepositoryFactory.getRepository().deletePetOwner(ovm.getPetOwner());
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+
+                    } else if (change.wasAdded()) {
+                        change.getAddedSubList().forEach(ovm -> {
+                            try {
+                                int idOwner = RepositoryFactory.getRepository().addPetOwner(ovm.getPetOwner());
+                                ovm.getPetOwner().setIDPetOwner(idOwner);
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+
+        pets.addListener(new ListChangeListener<PetViewModel>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends PetViewModel> change) {
+                if (change.next()) {
+                    if (change.wasRemoved()) {
+                        change.getRemoved().forEach(pvm -> {
+                            try {
+                                RepositoryFactory.getRepository().deletePet(pvm.getPet());
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    } else if (change.wasAdded()) {
+                        change.getAddedSubList().forEach(pvm -> {
+                            try {
+                                int idPet = RepositoryFactory.getRepository().addPet(pvm.getPet());
+                                pvm.getPet().setIDPet(idPet);
+                            } catch (Exception ex) {
+                                Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    }
+                }
+
+            }
         });
     }
 
