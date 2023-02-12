@@ -10,6 +10,7 @@ import hr.algebra.models.PetOwner;
 import hr.algebra.models.Veterinarian;
 import hr.algebra.utilities.FileUtils;
 import hr.algebra.utilities.ImageUtils;
+import hr.algebra.utilities.ValidationUtils;
 import hr.algebra.viewmodels.OwnerViewModel;
 import hr.algebra.viewmodels.PetViewModel;
 import hr.algebra.viewmodels.VetViewModel;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,8 +61,8 @@ public class VeterinarianController implements Initializable {
     private final ObservableList<OwnerViewModel> owners = FXCollections.observableArrayList();
     private final ObservableList<PetViewModel> pets = FXCollections.observableArrayList();
 
-    private ObservableList<Veterinarian> veterinarianCollection;
-    private ObservableList<PetOwner> petOwnerCollection;
+    private ObservableList<Veterinarian> veterinarianCollection = FXCollections.observableArrayList();
+    private ObservableList<PetOwner> petOwnerCollection = FXCollections.observableArrayList();
 
     private VetViewModel selectedVetViewModel;
     private OwnerViewModel selectedOwnerViewModel;
@@ -239,11 +241,11 @@ public class VeterinarianController implements Initializable {
     @FXML
     private void uploadPetPicture(ActionEvent event) {
         File file = FileUtils.uploadFileDialog(tfPetName.getScene().getWindow(), "jpg", "jpeg", "png");
-        
+
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             ivPetImage.setImage(image);
-            
+
             String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
             try {
                 selectedPetViewModel.getPet().setPicture(ImageUtils.imageToByteArray(image, ext));
@@ -251,22 +253,44 @@ public class VeterinarianController implements Initializable {
                 Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     @FXML
     private void commitPet(ActionEvent event) {
+        if (petFormValid()) {
 
+            selectedPetViewModel.getPet().setPetName(tfPetName.getText().trim());
+            selectedPetViewModel.getPet().setSpecies(tfSpecies.getText().trim());
+            selectedPetViewModel.getPet().setAge(Integer.valueOf(tfPetAge.getText().trim()));
+            selectedPetViewModel.getPet().setVeterinarianID(cbVeterinarian.getValue());
+            selectedPetViewModel.getPet().setPetOwnerID(cbOwner.getValue());
+
+            if (selectedPetViewModel.getIdPetProperty().get() == 0) {
+                pets.add(selectedPetViewModel);
+            } else {
+                try {
+                    RepositoryFactory.getRepository().updatePet(selectedPetViewModel.getPet());
+                    tvPets.refresh();
+                } catch (Exception ex) {
+                    Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            tpContent.getSelectionModel().select(tabPetList);
+            resetForm();
+            selectedPetViewModel = null;
+        }
     }
 
     @FXML
     private void uploadVetPicture(ActionEvent event) {
         File file = FileUtils.uploadFileDialog(tfVetFirstName.getScene().getWindow(), "jpg", "jpeg", "png");
-        
+
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             ivVetImage.setImage(image);
-            
+
             String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
             try {
                 selectedVetViewModel.getVeterinarian().setPicture(ImageUtils.imageToByteArray(image, ext));
@@ -278,17 +302,39 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void commitVet(ActionEvent event) {
+        if (vetFormValid()) {
 
+            selectedVetViewModel.getVeterinarian().setFirstName(tfVetFirstName.getText().trim());
+            selectedVetViewModel.getVeterinarian().setLastName(tfVetLastName.getText().trim());
+            selectedVetViewModel.getVeterinarian().setEmail(tfVetEmail.getText().trim());
+
+            if (selectedVetViewModel.getIdVeterinarianProperty().get() == 0) {
+                vets.add(selectedVetViewModel);
+            } else {
+                try {
+                    RepositoryFactory.getRepository().updateVeterinarian(selectedVetViewModel.getVeterinarian());
+                    tvVeterinarians.refresh();
+                } catch (Exception ex) {
+                    Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            tpContent.getSelectionModel().select(tabVetList);
+            resetForm();
+            selectedVetViewModel = null;
+
+            resetCbs();
+        }
     }
 
     @FXML
     private void uploadOwnerPicture(ActionEvent event) {
         File file = FileUtils.uploadFileDialog(tfOwnerFirstName.getScene().getWindow(), "jpg", "jpeg", "png");
-        
+
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             ivOwnerImage.setImage(image);
-            
+
             String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1);
             try {
                 selectedOwnerViewModel.getPetOwner().setPicture(ImageUtils.imageToByteArray(image, ext));
@@ -300,7 +346,29 @@ public class VeterinarianController implements Initializable {
 
     @FXML
     private void commitOwner(ActionEvent event) {
+        if (ownerFormValid()) {
 
+            selectedOwnerViewModel.getPetOwner().setFirstName(tfOwnerFirstName.getText().trim());
+            selectedOwnerViewModel.getPetOwner().setLastName(tfOwnerLastName.getText().trim());
+            selectedOwnerViewModel.getPetOwner().setEmail(tfOwnerEmail.getText().trim());
+
+            if (selectedOwnerViewModel.getIdPetOwnerProperty().get() == 0) {
+                owners.add(selectedOwnerViewModel);
+            } else {
+                try {
+                    RepositoryFactory.getRepository().updatePetOwner(selectedOwnerViewModel.getPetOwner());
+                    tvOwners.refresh();
+                } catch (Exception ex) {
+                    Logger.getLogger(VeterinarianController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            tpContent.getSelectionModel().select(tabOwnerList);
+            resetForm();
+            selectedOwnerViewModel = null;
+
+            resetCbs();
+        }
     }
 
     private void initValidation() {
@@ -550,5 +618,77 @@ public class VeterinarianController implements Initializable {
         tfValidationMapPet.values().forEach(lb -> lb.setVisible(false));
         cbValidationMapPet.values().forEach(lb -> lb.setVisible(false));
         lblPetPictureError.setVisible(false);
+    }
+
+    private boolean petFormValid() {
+        resetForm();
+        final AtomicBoolean ok = new AtomicBoolean(true);
+
+        tfValidationMapPet.forEach((tf, lb) -> {
+            if (tf.getText().isEmpty()) {
+                lb.setVisible(true);
+                ok.set(false);
+            }
+        });
+
+        if (selectedPetViewModel.getPictureProperty().get() == null) {
+            lblPetPictureError.setVisible(true);
+            ok.set(false);
+        }
+
+        cbValidationMapPet.forEach((cb, lb) -> {
+            if (cb.getValue() == null) {
+                lb.setVisible(true);
+                ok.set(false);
+            }
+        });
+
+        return ok.get();
+    }
+
+    private boolean vetFormValid() {
+        resetForm();
+        final AtomicBoolean ok = new AtomicBoolean(true);
+
+        tfValidationMapVet.forEach((tf, lb) -> {
+            if (tf.getText().isEmpty()
+                    || (tf.getId().contains("Email") && !ValidationUtils.isValidEmail(tf.getText()))) {
+                lb.setVisible(true);
+                ok.set(false);
+            }
+        });
+
+        if (selectedVetViewModel.getPictureProperty().get() == null) {
+            lblVetPictureError.setVisible(true);
+            ok.set(false);
+        }
+
+        return ok.get();
+    }
+
+    private boolean ownerFormValid() {
+        resetForm();
+        final AtomicBoolean ok = new AtomicBoolean(true);
+
+        tfValidationMapOwner.forEach((tf, lb) -> {
+            if (tf.getText().isEmpty()
+                    || (tf.getId().contains("Email") && !ValidationUtils.isValidEmail(tf.getText()))) {
+                lb.setVisible(true);
+                ok.set(false);
+            }
+        });
+
+        if (selectedOwnerViewModel.getPictureProperty().get() == null) {
+            lblOwnerPictureError.setVisible(true);
+            ok.set(false);
+        }
+
+        return ok.get();
+    }
+
+    private void resetCbs() {
+        cbOwner.getItems().clear();
+        cbVeterinarian.getItems().clear();
+        initCbs();
     }
 }
