@@ -5,6 +5,7 @@
  */
 package hr.algebra.models;
 
+import hr.algebra.dao.sql.HibernateFactory;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -28,11 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Pet")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pet.findAll", query = "SELECT p FROM Pet p")
-    , @NamedQuery(name = "Pet.findByIDPet", query = "SELECT p FROM Pet p WHERE p.iDPet = :iDPet")
-    , @NamedQuery(name = "Pet.findByPetName", query = "SELECT p FROM Pet p WHERE p.petName = :petName")
-    , @NamedQuery(name = "Pet.findBySpecies", query = "SELECT p FROM Pet p WHERE p.species = :species")
-    , @NamedQuery(name = "Pet.findByAge", query = "SELECT p FROM Pet p WHERE p.age = :age")})
+    @NamedQuery(name = HibernateFactory.SELECT_PETS, query = "SELECT p FROM Pet p")
+    , @NamedQuery(name = HibernateFactory.FIND_PET_BY_ID, query = "SELECT p FROM Pet p WHERE p.iDPet = :iDPet")
+    , @NamedQuery(name = HibernateFactory.FIND_PET_BY_NAME, query = "SELECT p FROM Pet p WHERE p.petName = :petName")
+    , @NamedQuery(name = HibernateFactory.FIND_PET_BY_SPECIES, query = "SELECT p FROM Pet p WHERE p.species = :species")
+    , @NamedQuery(name = HibernateFactory.FIND_PET_BY_AGE, query = "SELECT p FROM Pet p WHERE p.age = :age")})
 public class Pet implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -156,7 +157,7 @@ public class Pet implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.models.Pet[ iDPet=" + iDPet + " ]";
+        return petName;
     }
 
     public void updateData(Pet data) {

@@ -5,6 +5,7 @@
  */
 package hr.algebra;
 
+import hr.algebra.dao.RepositoryFactory;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class VetManagerApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("view/Veterinarian.fxml"));
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 700);
 
         primaryStage.setTitle("Vet manager");
         primaryStage.setScene(scene);
@@ -30,6 +31,15 @@ public class VetManagerApplication extends Application {
         primaryStage.centerOnScreen();
         primaryStage.show();
     }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop(); //To change body of generated methods, choose Tools | Templates.
+        RepositoryFactory.getRepository().release();
+    }
+    
+    
+    
 
     /**
      * @param args the command line arguments

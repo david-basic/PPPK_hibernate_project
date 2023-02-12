@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/VetManagerApplication.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/viewmodels/PetViewModel.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/dao/sql/HibernateRepository.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/viewmodels/OwnerViewModel.java</file>
             <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/controllers/VeterinarianController.java</file>
+            <file>file:/C:/Users/dbasi/Desktop/PPPK/Projects/HibernateJavaFXnetbeansProject/App/VetManager/src/hr/algebra/viewmodels/VetViewModel.java</file>
         </group>
     </open-files>
 </project-private>

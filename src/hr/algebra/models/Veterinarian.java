@@ -5,6 +5,7 @@
  */
 package hr.algebra.models;
 
+import hr.algebra.dao.sql.HibernateFactory;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -30,11 +31,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Veterinarian")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Veterinarian.findAll", query = "SELECT v FROM Veterinarian v")
-    , @NamedQuery(name = "Veterinarian.findByIDVeterinarian", query = "SELECT v FROM Veterinarian v WHERE v.iDVeterinarian = :iDVeterinarian")
-    , @NamedQuery(name = "Veterinarian.findByFirstName", query = "SELECT v FROM Veterinarian v WHERE v.firstName = :firstName")
-    , @NamedQuery(name = "Veterinarian.findByLastName", query = "SELECT v FROM Veterinarian v WHERE v.lastName = :lastName")
-    , @NamedQuery(name = "Veterinarian.findByEmail", query = "SELECT v FROM Veterinarian v WHERE v.email = :email")})
+    @NamedQuery(name = HibernateFactory.SELECT_VETERINARIANS, query = "SELECT v FROM Veterinarian v")
+    , @NamedQuery(name = HibernateFactory.FIND_VETERINARIAN_BY_ID, query = "SELECT v FROM Veterinarian v WHERE v.iDVeterinarian = :iDVeterinarian")
+    , @NamedQuery(name = HibernateFactory.FIND_VETERINARIAN_BY_FIRST_NAME, query = "SELECT v FROM Veterinarian v WHERE v.firstName = :firstName")
+    , @NamedQuery(name = HibernateFactory.FIND_VETERINARIAN_BY_LAST_NAME, query = "SELECT v FROM Veterinarian v WHERE v.lastName = :lastName")
+    , @NamedQuery(name = HibernateFactory.FIND_VETERINARIAN_BY_EMAIL, query = "SELECT v FROM Veterinarian v WHERE v.email = :email")})
 public class Veterinarian implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +71,10 @@ public class Veterinarian implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Veterinarian(Veterinarian data) {
+        updateData(data);
     }
 
     public Integer getIDVeterinarian() {
@@ -143,7 +148,14 @@ public class Veterinarian implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.models.Veterinarian[ iDVeterinarian=" + iDVeterinarian + " ]";
+        return firstName + " " + lastName;
     }
-    
+
+    public void updateData(Veterinarian data) {
+        firstName = data.firstName;
+        lastName = data.lastName;
+        email = data.email;
+        picture = data.picture;
+    }
+
 }
